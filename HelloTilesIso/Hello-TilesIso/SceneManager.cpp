@@ -246,6 +246,7 @@ void SceneManager::render()
 	float y = yi + (poscoluna + poslinha) * tileset[0].getHeight() / 2.0;
 	model = glm::mat4();
 	model = glm::translate(model, glm::vec3(x, y, 0.0));
+	player.setPosition(glm::vec3(x, y, 0.0));
 
 	tileset[7].draw(model);
 	
@@ -386,7 +387,7 @@ void SceneManager::setupScene()
 	//Inicializa o personagem
 	GLuint playerID = loadTexture("../textures/slime.png");
 	player.setShader(shaders[1]);
-	glm::vec3 Pscale(640.0, 640.0, 1.0);
+	glm::vec3 Pscale(320.0, 320.0, 0.0);
 	player.inicializar(playerID, Pscale, 10, 6);
 	
 	//Inicializando pos do personagem
@@ -411,6 +412,14 @@ void SceneManager::setupCamera2D()
 	shaders[1]->Use();
 	projLoc = glGetUniformLocation(shaders[1]->ID, "projection");
 	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+	//Habilitando a profundidade
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_ALWAYS);
+
+	//Habilitando a transparência
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 int SceneManager::setupTexture(string filename, int &largura, int &altura, int &nroCanais)
