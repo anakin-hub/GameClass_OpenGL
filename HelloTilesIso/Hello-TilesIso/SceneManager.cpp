@@ -5,6 +5,7 @@ static bool keys[1024];
 static bool resized;
 static GLuint width, height;
 static int dir;
+static int status;
 
 SceneManager::SceneManager()
 {
@@ -116,6 +117,7 @@ void SceneManager::key_callback(GLFWwindow * window, int key, int scancode, int 
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
+
 	if (key >= 0 && key < 1024)
 	{
 		if (action == GLFW_PRESS)
@@ -142,6 +144,10 @@ void SceneManager::key_callback(GLFWwindow * window, int key, int scancode, int 
 		{
 			dir = LESTE;
 		}
+		if (key == GLFW_KEY_SPACE)
+		{
+			status = RESET;
+		}
 	}
 	else
 	{
@@ -165,86 +171,114 @@ void SceneManager::update()
 	if (keys[GLFW_KEY_ESCAPE])
 		glfwSetWindowShouldClose(window, GL_TRUE);
 
+	
 
 	int px, py;
 
 	px = poslinha;
 	py = poscoluna;
-	if (dir != PARADO)
+
+	if (status == RESET)
 	{
-		if (dir == NORTE)
+		loadingLevel(Plvl);
+		poslinha = startx;
+		poscoluna = starty;
+		status = PLAYING;
+	}
+	else
+	{
+		if (dir != PARADO)
 		{
-			player.setAnim(8);
-			poscoluna--;
-		}
-
-		if (dir == SUL)
-		{
-			player.setAnim(6);
-			poslinha++;
-		}
-
-		if (dir == LESTE)
-		{
-			player.setAnim(7);
-			poscoluna++;
-		}
-
-		if (dir == OESTE)
-		{
-			player.setAnim(5);
-			poslinha--;
-		}
-
-		//Validações pro personagem não sair do mapa
-		if (poslinha < 0)
-		{
-			poslinha = 0;
-		}
-		if (poscoluna < 0)
-		{
-			poscoluna = 0;
-		}
-		if (poslinha > 9)
-		{
-			poslinha = 9;
-		}
-		if (poscoluna > 9)
-		{
-			poscoluna = 9;
-		}
-
-		if (mapwalk[poslinha][poscoluna] == 0)
-		{
-			poslinha = px;
-			poscoluna = py;
-		}
-		else if (mapwalk[poslinha][poscoluna] == 2)
-		{
-			mapwalk[poslinha][poscoluna]--;
-			for (int i = 0; i < LINS; i++)
+			if (dir == NORTE)
 			{
-				for (int j = 0; j < COLS; j++)
+				player.setAnim(8);
+				poscoluna--;
+			}
+
+			if (dir == SUL)
+			{
+				player.setAnim(6);
+				poslinha++;
+			}
+
+			if (dir == LESTE)
+			{
+				player.setAnim(7);
+				poscoluna++;
+			}
+
+			if (dir == OESTE)
+			{
+				player.setAnim(5);
+				poslinha--;
+			}
+
+			//Validações pro personagem não sair do mapa
+			if (poslinha < 0)
+			{
+				poslinha = 0;
+			}
+			if (poscoluna < 0)
+			{
+				poscoluna = 0;
+			}
+			if (poslinha > 9)
+			{
+				poslinha = 9;
+			}
+			if (poscoluna > 9)
+			{
+				poscoluna = 9;
+			}
+
+			if (mapwalk[poslinha][poscoluna] == 0)
+			{
+				poslinha = px;
+				poscoluna = py;
+			}
+			else if (mapwalk[poslinha][poscoluna] == 2)
+			{
+				mapwalk[poslinha][poscoluna]--;
+				map[poslinha][poscoluna] = 4;
+				for (int i = 0; i < LINS; i++)
 				{
-					if (map[i][j] == 1)
+					for (int j = 0; j < COLS; j++)
 					{
-						map[i][j]++;
-						mapwalk[i][j]--;
+						if (map[i][j] == 1)
+						{
+							map[i][j]++;
+							mapwalk[i][j]--;
+						}
 					}
 				}
-			}
-		}
-		else if (mapwalk[poslinha][poscoluna] == 3)
-		{
-			cout << "\nPARABENS VOCE PASSOU!\n";
-		}
 
-		if (map[px][py] >= 3 && map[px][py] < 5)
-		{
-			map[px][py]++;
-			if (map[px][py] > 4)
+			}
+
+
+			if (map[px][py] >= 3 && map[px][py] < 5)
 			{
-				mapwalk[px][py]--;
+				map[px][py]++;
+				if (map[px][py] > 4)
+				{
+					mapwalk[px][py]--;
+				}
+			}
+
+			if (mapwalk[poslinha][poscoluna] == 3)
+			{
+				cout << "\nPARABENS VOCE PASSOU!\n";
+				Plvl++;
+				if (Plvl < 4)
+				{
+					startx = poslinha;
+					starty = poscoluna;
+					loadingLevel(Plvl);
+				}
+				else
+				{
+					cout << "\nPARABENS VOCE TERMINOU O JOGO!\n";
+					glfwSetWindowShouldClose(window, GL_TRUE);
+				}
 			}
 		}
 	}
@@ -406,57 +440,6 @@ void SceneManager::setupScene()
 	tile.inicializar(32, 64);
 	tileset.push_back(tile);
 
-	// Um mapa predefinido
-	int mapaauxiliar[10][10] =
-	{
-		4,	6,	6,	6,	6,	6,	6,	6,	6,	6,
-		4,	6,	4,	4,	4,	6,	6,	4,	6,	6,
-		4,	6,	4,	4,	4,	6,	4,	3,	4,	6,
-		4,	6,	4,	4,	4,	6,	4,	4,	4,	6,
-		4,	6,  4,	4,	4,	6,	4,	4,	4,	6,
-		4,	6,	4,	4,	4,	6,	4,	4,	4,	6,
-		4,	6,	4,	4,	4,	1,	4,	4,	4,	0,
-		3,	4,	4,	4,	4,	6,	6,	6,	6,	6,
-		4,	6,	4,	4,	4,	6,	5,	5,	5,	5,
-		6,	6,	6,	6,	6,	6,	5,	5,	5,	5
-		
-	};
-
-	// Não está sendo usado, mas para controle de onde o personagem pode se mover
-	int mapcaminhavel[10][10] =
-	{
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		1, 0, 1, 2, 1, 0, 0, 1, 0, 0,
-		1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
-		1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
-		1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
-		1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
-		1, 0, 1, 1, 1, 0, 1, 1, 1, 3,
-		1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-		1, 0, 1, 1, 1, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	};
-
-	//Copiando o mapa predefinido
-	for (int i = 0; i < LINS; i++)
-	{
-		for (int j = 0; j < COLS; j++)
-		{
-			map[i][j] = mapaauxiliar[i][j]; //sorteia os índices 0 ou 1
-			/*if (map[i][j] >= 5)
-			{
-				mapwalk[i][j] = 0;
-			}
-			else
-			{
-				mapwalk[i][j] = 1;
-			}*/
-			mapwalk[i][j] = mapcaminhavel[i][j];
-			//cout << mapwalk[i][j] << ", ";
-		}
-		//cout << "\n";
-	}
-
 	//Inicializa o personagem
 	GLuint playerID = loadTexture("../textures/slime4.png");
 	player.setShader(shaders[1]);
@@ -470,9 +453,13 @@ void SceneManager::setupScene()
 	potion.inicializar(potionID, pscale, 1, 1);
 	
 	//Inicializando pos do personagem
-	poslinha = 0;
-	poscoluna = 0;
+	Plvl = 1;
+	startx = poslinha = 2;
+	starty = poscoluna = 7;
 	dir = PARADO;
+	status = PLAYING;
+
+	loadingLevel(Plvl);
 }
 
 void SceneManager::setupCamera2D()
@@ -549,4 +536,67 @@ int SceneManager::setupTexture(string filename, int &largura, int &altura, int &
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	return texture;
+}
+
+void SceneManager::loadingLevel(int playerlvl)
+{
+	string lvl;
+	switch (playerlvl)
+	{
+	case 1:
+		lvl = "lvl1.txt";
+		break;
+	case 2:
+		lvl = "lvl2.txt";
+		break;
+	case 3:
+		lvl = "lvl3.txt";
+		break;
+	default:
+
+		break;
+	}
+
+	//Inicialização mapa
+	loadLevel(lvl);
+
+	//Copiando o mapa predefinido
+	for (int i = 0; i < LINS; i++)
+	{
+		for (int j = 0; j < COLS; j++)
+		{
+			if (map[i][j] >= 5 || map[i][j] == 1)
+			{
+				mapwalk[i][j] = 0;
+			}
+			else if (map[i][j] == 2)
+			{
+				mapwalk[i][j] = 2;
+			}
+			else if (map[i][j] == 0)
+			{
+				mapwalk[i][j] = 3;
+			}
+			else
+			{
+				mapwalk[i][j] = 1;
+			}
+		}
+	}
+}
+
+void SceneManager::loadLevel(string file)
+{
+	txtFile.open(file);
+	if (txtFile.is_open())
+	{
+		for (int i = 0; i < LINS; i++)
+		{
+			for (int j = 0; j < COLS; j++)
+			{
+				txtFile >> map[i][j];
+			}
+		}
+		txtFile.close();
+	}
 }

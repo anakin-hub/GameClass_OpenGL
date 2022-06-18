@@ -1,5 +1,6 @@
 #pragma once
 
+//Shader
 #include "Shader.h"
 
 // GLM
@@ -7,22 +8,25 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+//Leitor
 #include "stb_image.h"
+
+//Classes
 #include "TileIso.h"
 #include "Object.h"
 #include "Sprite.h"
 #include "Timer.h"
 
-// #include "Sprite.h" -- INCLUAM O DE VCS!
-
+//bibliotecas adicionais
 #include <vector>
-
-#include<ctime>
+#include <fstream>
+#include <ctime>
 
 #define LINS 10
 #define COLS 10
 
 enum direcoes{PARADO, NORTE, SUL, LESTE, OESTE};
+enum state{RESET, PLAYING};
 
 class SceneManager
 {
@@ -44,11 +48,13 @@ public:
 	void run();
 	void finish();
 
-
 	// scene
 	void setupScene();
 	void setupCamera2D();
 	int setupTexture(string filename, int& largura, int& altura, int& nroCanais); //apenas mostra como criar uma textura
+
+	void loadingLevel(int playerlvl);
+	void loadLevel(string file);
 private:
 	
 	//GFLW window
@@ -73,15 +79,19 @@ private:
 	int mapwalk[LINS][COLS];
 
 	//Player
-	Sprite player; 
-	glm::vec2 playerPos; //Posição no mundo
+	Sprite player;
+	int startx, starty;//POSIÇÃO INICIAL DA FASE ATUAL
 	int poslinha; //POS Y DO PERSONAGEM NO MAPA
 	int poscoluna; //POS X DO PERSONAGEM NO MAPA
+	int Plvl;
 
 	//Objetos
 	Sprite potion;
 
 	//Timer
 	Timer timer;
+
+	//files
+	fstream txtFile;
 };
 
