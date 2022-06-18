@@ -9,12 +9,12 @@ out vec2 TexCoord;
 uniform mat4 model;
 uniform mat4 projection;
 
-uniform vec2 offsetUV;
+uniform vec2 offset;
 
 void main()
 {
     gl_Position = projection * model * vec4(position, 1.0f);
 	ourColor = color;
 	
-	TexCoord = vec2(texCoord.x+offsetUV.x, texCoord.y+offsetUV.y);
+	TexCoord = vec2(texCoord.x+offset.x, texCoord.y+offset.y);
 }

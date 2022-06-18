@@ -11,6 +11,7 @@
 #include "TileIso.h"
 #include "Object.h"
 #include "Sprite.h"
+#include "Timer.h"
 
 // #include "Sprite.h" -- INCLUAM O DE VCS!
 
@@ -69,11 +70,14 @@ private:
 	vector <TileIso> tileset;
 
 	int map[LINS][COLS];
+	int mapwalk[LINS][COLS];
 
 	Sprite player; 
 	glm::vec2 playerPos; //Posição no mundo
 	int poslinha; //POS Y DO PERSONAGEM NO MAPA
 	int poscoluna; //POS X DO PERSONAGEM NO MAPA
 
+	//Timer
+	Timer timer;
 };
 

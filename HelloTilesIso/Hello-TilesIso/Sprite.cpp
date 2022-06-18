@@ -21,17 +21,11 @@ void Sprite::inicializar(GLuint text, glm::vec3 scale, int nAnims, int nFrames)
 	offset.y = 1.0 / nAnims;
 
 	float vertices[] = {
-		//posicoes          // cores           // coordenadas de textura
+		// posicoes          // cores           // coordenadas de textura
 		0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   offset.x, offset.y, // topo da direita
 		0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   offset.x, 0.0, // base da direita
 		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0, // topo da esquerda
 		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, offset.y  // base da esquerda 
-
-		//0.0f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   offset.x, offset.y,
-		//0.25f, 1.0f, 0.0f,   0.0f, 1.0f, 0.0f,   offset.x, 0.0,
-		//0.5f, 0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0,
-		//0.25f, 0.0f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, offset.y
-
 	};
 	unsigned int indices[] = {
 		0, 1, 3, // first triangle
@@ -78,7 +72,7 @@ void Sprite::draw()
 {
 	//shader->Use();
 	GLint offsetLoc = glGetUniformLocation(shader->ID, "offset");
-	cout << "desenha\n";
+
 	iFrame = (iFrame + 1) % nFrames;
 
 	glm::vec2 _offset = glm::vec2(offset.x * iFrame, offset.y * iAnim);

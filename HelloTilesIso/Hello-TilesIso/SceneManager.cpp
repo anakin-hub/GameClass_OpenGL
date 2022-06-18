@@ -134,7 +134,7 @@ void SceneManager::key_callback(GLFWwindow * window, int key, int scancode, int 
 		{
 			dir = SUL;
 		}
-		if (key == GLFW_KEY_A)
+		if (key == GLFW_KEY_E)
 		{
 			dir = OESTE;
 		}
@@ -142,6 +142,10 @@ void SceneManager::key_callback(GLFWwindow * window, int key, int scancode, int 
 		{
 			dir = LESTE;
 		}
+	}
+	else
+	{
+		dir = PARADO;
 	}
 }
 
@@ -161,33 +165,33 @@ void SceneManager::update()
 	if (keys[GLFW_KEY_ESCAPE])
 		glfwSetWindowShouldClose(window, GL_TRUE);
 
+	int px, py;
+
+	px = poslinha;
+	py = poscoluna;
+
 	if (dir == NORTE)
 	{
-		player.setAnim(5);
-		//atualiza posição do mapa onde personagem irá,
-		//conforme tabela de navegação do diamond
+		player.setAnim(8);
+		poscoluna--;
 	}
 
 	if (dir == SUL)
 	{
 		player.setAnim(6);
-		//atualiza posição do mapa onde personagem irá,
-		//conforme tabela de navegação do diamond
+		poslinha++;
 	}
 
 	if (dir == LESTE)
 	{
 		player.setAnim(7);
-		//atualiza posição do mapa onde personagem irá,
-		//conforme tabela de navegação do diamond
-		
+		poscoluna++;
 	}
 
 	if (dir == OESTE)
 	{
-		player.setAnim(8);
-		//atualiza posição do mapa onde personagem irá,
-		//conforme tabela de navegação do diamond
+		player.setAnim(5);
+		poslinha--;
 	}
 
 	//Validações pro personagem não sair do mapa
@@ -208,6 +212,11 @@ void SceneManager::update()
 		poscoluna = 9;
 	}
 
+	if (mapwalk[poslinha][poscoluna] == 0)
+	{
+		poslinha = px;
+		poscoluna = py;
+	}
 	
 }
 
@@ -246,12 +255,19 @@ void SceneManager::render()
 	float y = yi + (poscoluna + poslinha) * tileset[0].getHeight() / 2.0;
 	model = glm::mat4();
 	model = glm::translate(model, glm::vec3(x, y, 0.0));
-	player.setPosition(glm::vec3(x, y, 0.0));
 
 	tileset[7].draw(model);
 	
+	player.setPosition(glm::vec3(x + (tileset[0].getWidth()/2.0), y + (tileset[0].getHeight()/4.0), 1.0));
+
 	player.update();
 	player.draw();
+
+	timer.finish();
+	double waitingTime = timer.calcWaitingTime(12, timer.getElapsedTimeMs());
+	if (waitingTime) {
+		std::this_thread::sleep_for(std::chrono::milliseconds((int)waitingTime));
+	}
 }
 
 void SceneManager::run()
@@ -259,7 +275,9 @@ void SceneManager::run()
 	//GAME LOOP
 	while (!glfwWindowShouldClose(window))
 	{
-		
+		//timer starts
+		timer.start();
+
 		// Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
 		glfwPollEvents();
 
@@ -381,18 +399,19 @@ void SceneManager::setupScene()
 		for (int j = 0; j < COLS; j++)
 		{
 			map[i][j] = mapaauxiliar[i][j]; //sorteia os índices 0 ou 1
+			mapwalk[i][j] = mapcaminhavel[i][j];
 		}
 	}
 
 	//Inicializa o personagem
-	GLuint playerID = loadTexture("../textures/slime.png");
+	GLuint playerID = loadTexture("../textures/slime4.png");
 	player.setShader(shaders[1]);
-	glm::vec3 Pscale(320.0, 320.0, 0.0);
-	player.inicializar(playerID, Pscale, 10, 6);
+	glm::vec3 Pscale(160.0, 160.0, 1.0);
+	player.inicializar(playerID, Pscale, 4, 6);
 	
 	//Inicializando pos do personagem
-	poslinha = 0;
-	poscoluna = 0;
+	poslinha = 2;
+	poscoluna = 5;
 	dir = PARADO;
 }
 
