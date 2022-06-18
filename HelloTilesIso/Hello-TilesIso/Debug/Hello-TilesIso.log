@@ -1,7 +1,7 @@
 ﻿  SceneManager.cpp
 D:\Studying\Repositórios - GitHub\GameClass_OpenGL\HelloTilesIso\Hello-TilesIso\SceneManager.cpp(11,12): warning C4244: 'argumento': conversão de 'time_t' para 'unsigned int', possível perda de dados
-D:\Studying\Repositórios - GitHub\GameClass_OpenGL\HelloTilesIso\Hello-TilesIso\SceneManager.cpp(245,12): warning C4244: 'inicializando': conversão de 'double' para 'float', possível perda de dados
-D:\Studying\Repositórios - GitHub\GameClass_OpenGL\HelloTilesIso\Hello-TilesIso\SceneManager.cpp(246,12): warning C4244: 'inicializando': conversão de 'double' para 'float', possível perda de dados
-D:\Studying\Repositórios - GitHub\GameClass_OpenGL\HelloTilesIso\Hello-TilesIso\SceneManager.cpp(254,10): warning C4244: 'inicializando': conversão de 'double' para 'float', possível perda de dados
-D:\Studying\Repositórios - GitHub\GameClass_OpenGL\HelloTilesIso\Hello-TilesIso\SceneManager.cpp(255,10): warning C4244: 'inicializando': conversão de 'double' para 'float', possível perda de dados
+D:\Studying\Repositórios - GitHub\GameClass_OpenGL\HelloTilesIso\Hello-TilesIso\SceneManager.cpp(248,12): warning C4244: 'inicializando': conversão de 'double' para 'float', possível perda de dados
+D:\Studying\Repositórios - GitHub\GameClass_OpenGL\HelloTilesIso\Hello-TilesIso\SceneManager.cpp(249,12): warning C4244: 'inicializando': conversão de 'double' para 'float', possível perda de dados
+D:\Studying\Repositórios - GitHub\GameClass_OpenGL\HelloTilesIso\Hello-TilesIso\SceneManager.cpp(257,10): warning C4244: 'inicializando': conversão de 'double' para 'float', possível perda de dados
+D:\Studying\Repositórios - GitHub\GameClass_OpenGL\HelloTilesIso\Hello-TilesIso\SceneManager.cpp(258,10): warning C4244: 'inicializando': conversão de 'double' para 'float', possível perda de dados
   Hello-TilesIso.vcxproj -> D:\Studying\Repositórios - GitHub\GameClass_OpenGL\HelloTilesIso\Debug\Hello-TilesIso.exe

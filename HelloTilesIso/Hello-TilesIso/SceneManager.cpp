@@ -165,6 +165,7 @@ void SceneManager::update()
 	if (keys[GLFW_KEY_ESCAPE])
 		glfwSetWindowShouldClose(window, GL_TRUE);
 
+
 	int px, py;
 
 	px = poslinha;
@@ -218,6 +219,8 @@ void SceneManager::update()
 		poscoluna = py;
 	}
 	
+	//fazer aqui a troca de status do mapa
+
 }
 
 void SceneManager::render()
@@ -314,49 +317,49 @@ void SceneManager::setupScene()
 	tile.setShader(shaders[0]);
 
 	//Tile 0
-	corDoTile.r = 47; corDoTile.g = 117; corDoTile.b = 181; corDoTile.a = 255;//Aqui coloca a cor RGBA 
+	corDoTile.r = 26; corDoTile.g = 255; corDoTile.b = 0; corDoTile.a = 255;//Aqui coloca a cor RGBA 
 	tile.setCor(normalizaRGB(corDoTile));
 	tile.inicializar(32, 64);
 	tileset.push_back(tile);
 
 	//Tile 1
-	corDoTile.r = 0; corDoTile.g = 176; corDoTile.b = 80; corDoTile.a = 255;//Aqui coloca a cor RGBA 
+	corDoTile.r = 112; corDoTile.g = 0; corDoTile.b = 160; corDoTile.a = 255;//Aqui coloca a cor RGBA 
 	tile.setCor(normalizaRGB(corDoTile));
 	tile.inicializar(32, 64);
 	tileset.push_back(tile);
 
 	//Tile 2
-	corDoTile.r = 191; corDoTile.g = 143; corDoTile.b = 0; corDoTile.a = 255;//Aqui coloca a cor RGBA 
+	corDoTile.r = 179; corDoTile.g = 0; corDoTile.b = 255; corDoTile.a = 255;//Aqui coloca a cor RGBA 
 	tile.setCor(normalizaRGB(corDoTile));
 	tile.inicializar(32, 64);
 	tileset.push_back(tile);
 
 	//Tile 3
-	corDoTile.r = 128; corDoTile.g = 96; corDoTile.b = 0; corDoTile.a = 255;//Aqui coloca a cor RGBA 
+	corDoTile.r = 76; corDoTile.g = 88; corDoTile.b = 107; corDoTile.a = 255;//Aqui coloca a cor RGBA 
 	tile.setCor(normalizaRGB(corDoTile));
 	tile.inicializar(32, 64);
 	tileset.push_back(tile);
 
 	//Tile 4
-	corDoTile.r = 191; corDoTile.g = 191; corDoTile.b = 191; corDoTile.a = 255;//Aqui coloca a cor RGBA 
+	corDoTile.r = 141; corDoTile.g = 153; corDoTile.b = 174; corDoTile.a = 255;//Aqui coloca a cor RGBA 
 	tile.setCor(normalizaRGB(corDoTile));
 	tile.inicializar(32, 64);
 	tileset.push_back(tile);
 
 	//Tile 5
-	corDoTile.r = 198; corDoTile.g = 89; corDoTile.b = 17; corDoTile.a = 255;//Aqui coloca a cor RGBA 
+	corDoTile.r = 217; corDoTile.g = 4; corDoTile.b = 41; corDoTile.a = 255;//Aqui coloca a cor RGBA 
 	tile.setCor(normalizaRGB(corDoTile));
 	tile.inicializar(32, 64);
 	tileset.push_back(tile);
 
 	//Tile 6
-	corDoTile.r = 31; corDoTile.g = 78; corDoTile.b = 120; corDoTile.a = 255;//Aqui coloca a cor RGBA 
+	corDoTile.r = 40; corDoTile.g = 42; corDoTile.b = 62; corDoTile.a = 255;//Aqui coloca a cor RGBA 
 	tile.setCor(normalizaRGB(corDoTile));
 	tile.inicializar(32, 64);
 	tileset.push_back(tile);
 
 	//Tile 7
-	corDoTile.r = 0; corDoTile.g = 0; corDoTile.b = 0; corDoTile.a = 255;//Aqui coloca a cor RGBA 
+	corDoTile.r = 0; corDoTile.g = 0; corDoTile.b = 0; corDoTile.a = 155;//Aqui coloca a cor RGBA 
 	tile.setCor(normalizaRGB(corDoTile));
 	tile.inicializar(32, 64);
 	tileset.push_back(tile);
@@ -364,33 +367,32 @@ void SceneManager::setupScene()
 	// Um mapa predefinido
 	int mapaauxiliar[10][10] =
 	{
-		6,	6,	6,	6,	0,	3,	3,	3,	3,	2,
-		0,	0,	0,	0,	0,	3,	3,	3,	3,	2,
-		1,	1,	0,	0,	0,	0,	3,	3,	3,	2,
-		1,	1,	2,	2,	0,	0,	4,	4,	4,	2,
-		1,	1,	2,	2,	0,	0,	4,	4,	4,	2,
-		1,	1,	2,	2,	2,	4,	4,	4,	4,	2,
-		1,	1,	2,	2,	2,	4,	4,	4,	4,	2,
-		1,	1,	0,	0,	0,	4,	4,	5,	5,	5,
-		1,	1,	2,	2,	0,	4,	4,	5,	5,	5,
-		3,	3,	6,	6,	6,	4,	4,	5,	5,	5
+		4,	6,	6,	6,	6,	6,	6,	6,	6,	6,
+		4,	6,	4,	4,	4,	6,	6,	3,	6,	6,
+		4,	6,	4,	4,	4,	6,	4,	3,	4,	6,
+		4,	6,	4,	4,	4,	6,	4,	4,	4,	6,
+		4,	6,  4,	4,	4,	6,	4,	4,	4,	6,
+		4,	6,	4,	4,	4,	6,	4,	4,	4,	6,
+		4,	6,	4,	4,	4,	1,	4,	4,	4,	0,
+		3,	4,	4,	4,	4,	6,	6,	6,	6,	6,
+		3,	6,	4,	4,	4,	6,	5,	5,	5,	5,
+		6,	6,	6,	6,	6,	6,	5,	5,	5,	5
 		
 	};
 
 	// Não está sendo usado, mas para controle de onde o personagem pode se mover
 	int mapcaminhavel[10][10] =
 	{
-		0,	0,	0,	0,	1,	1,	1,	1,	1,	1,
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,
-		1,	1,  1,	1,	1,	1,	1,	1,	1,	1,
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,
-		1,	1,	0,	0,	0,	1,	1,	1,	1,	1
-
+		1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		1, 0, 1, 1, 1, 0, 0, 1, 0, 0,
+		1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
+		1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
+		1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
+		1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
+		1, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+		1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+		1, 0, 1, 1, 1, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	};
 
 	//Copiando o mapa predefinido
@@ -399,8 +401,18 @@ void SceneManager::setupScene()
 		for (int j = 0; j < COLS; j++)
 		{
 			map[i][j] = mapaauxiliar[i][j]; //sorteia os índices 0 ou 1
+			/*if (map[i][j] >= 5)
+			{
+				mapwalk[i][j] = 0;
+			}
+			else
+			{
+				mapwalk[i][j] = 1;
+			}*/
 			mapwalk[i][j] = mapcaminhavel[i][j];
+			//cout << mapwalk[i][j] << ", ";
 		}
+		//cout << "\n";
 	}
 
 	//Inicializa o personagem
@@ -410,8 +422,8 @@ void SceneManager::setupScene()
 	player.inicializar(playerID, Pscale, 4, 6);
 	
 	//Inicializando pos do personagem
-	poslinha = 2;
-	poscoluna = 5;
+	poslinha = 0;
+	poscoluna = 0;
 	dir = PARADO;
 }
 
