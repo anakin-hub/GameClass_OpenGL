@@ -72,10 +72,14 @@ private:
 	int map[LINS][COLS];
 	int mapwalk[LINS][COLS];
 
+	//Player
 	Sprite player; 
 	glm::vec2 playerPos; //Posição no mundo
 	int poslinha; //POS Y DO PERSONAGEM NO MAPA
 	int poscoluna; //POS X DO PERSONAGEM NO MAPA
+
+	//Objetos
+	Sprite potion;
 
 	//Timer
 	Timer timer;

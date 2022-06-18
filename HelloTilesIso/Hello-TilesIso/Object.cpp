@@ -62,8 +62,6 @@ void Object::update()
 
 void Object::draw()
 {
-	shader->Use();
-	cout << "objeto\n";
 	//seta a textura
 	glBindTexture(GL_TEXTURE_2D, textID);
 	glUniform1i(glGetUniformLocation(shader->ID, "ourTexture1"), 0);

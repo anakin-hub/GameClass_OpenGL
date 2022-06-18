@@ -221,6 +221,7 @@ void SceneManager::update()
 		}
 		else if (mapwalk[poslinha][poscoluna] == 2)
 		{
+			mapwalk[poslinha][poscoluna]--;
 			for (int i = 0; i < LINS; i++)
 			{
 				for (int j = 0; j < COLS; j++)
@@ -228,10 +229,14 @@ void SceneManager::update()
 					if (map[i][j] == 1)
 					{
 						map[i][j]++;
-						mapwalk[i][j]++;
+						mapwalk[i][j]--;
 					}
 				}
 			}
+		}
+		else if (mapwalk[poslinha][poscoluna] == 3)
+		{
+			cout << "\nPARABENS VOCE PASSOU!\n";
 		}
 
 		if (map[px][py] >= 3 && map[px][py] < 5)
@@ -283,6 +288,21 @@ void SceneManager::render()
 
 	tileset[7].draw(model);
 	
+	for (int i = 0; i < LINS; i++)
+	{
+		for (int j = 0; j < COLS; j++)
+		{
+			float x = xi + (j - i) * tileset[0].getWidth() / 2.0;
+			float y = yi + (j + i) * tileset[0].getHeight() / 2.0;
+			if (mapwalk[i][j] == 2)
+			{
+				potion.setPosition(glm::vec3(x + (tileset[0].getWidth() / 2.0), y + (tileset[0].getHeight() / 4.0), 1.0));
+				potion.update();
+				potion.draw();
+			}
+		}
+	}
+
 	player.setPosition(glm::vec3(x + (tileset[0].getWidth()/2.0), y + (tileset[0].getHeight()/4.0), 1.0));
 
 	player.update();
@@ -390,7 +410,7 @@ void SceneManager::setupScene()
 	int mapaauxiliar[10][10] =
 	{
 		4,	6,	6,	6,	6,	6,	6,	6,	6,	6,
-		4,	6,	4,	4,	4,	6,	6,	3,	6,	6,
+		4,	6,	4,	4,	4,	6,	6,	4,	6,	6,
 		4,	6,	4,	4,	4,	6,	4,	3,	4,	6,
 		4,	6,	4,	4,	4,	6,	4,	4,	4,	6,
 		4,	6,  4,	4,	4,	6,	4,	4,	4,	6,
@@ -411,7 +431,7 @@ void SceneManager::setupScene()
 		1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
 		1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
 		1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
-		1, 0, 1, 1, 1, 0, 1, 1, 1, 1,
+		1, 0, 1, 1, 1, 0, 1, 1, 1, 3,
 		1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
 		1, 0, 1, 1, 1, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -442,6 +462,12 @@ void SceneManager::setupScene()
 	player.setShader(shaders[1]);
 	glm::vec3 Pscale(160.0, 160.0, 1.0);
 	player.inicializar(playerID, Pscale, 4, 6);
+
+	//Inicializa a poção (KEY)
+	GLuint potionID = loadTexture("../textures/potion.png");
+	potion.setShader(shaders[1]);
+	glm::vec3 pscale(32.0, 32.0, 1.0);
+	potion.inicializar(potionID, pscale, 1, 1);
 	
 	//Inicializando pos do personagem
 	poslinha = 0;
