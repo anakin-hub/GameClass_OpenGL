@@ -170,57 +170,79 @@ void SceneManager::update()
 
 	px = poslinha;
 	py = poscoluna;
+	if (dir != PARADO)
+	{
+		if (dir == NORTE)
+		{
+			player.setAnim(8);
+			poscoluna--;
+		}
 
-	if (dir == NORTE)
-	{
-		player.setAnim(8);
-		poscoluna--;
-	}
+		if (dir == SUL)
+		{
+			player.setAnim(6);
+			poslinha++;
+		}
 
-	if (dir == SUL)
-	{
-		player.setAnim(6);
-		poslinha++;
-	}
+		if (dir == LESTE)
+		{
+			player.setAnim(7);
+			poscoluna++;
+		}
 
-	if (dir == LESTE)
-	{
-		player.setAnim(7);
-		poscoluna++;
-	}
+		if (dir == OESTE)
+		{
+			player.setAnim(5);
+			poslinha--;
+		}
 
-	if (dir == OESTE)
-	{
-		player.setAnim(5);
-		poslinha--;
-	}
+		//Validações pro personagem não sair do mapa
+		if (poslinha < 0)
+		{
+			poslinha = 0;
+		}
+		if (poscoluna < 0)
+		{
+			poscoluna = 0;
+		}
+		if (poslinha > 9)
+		{
+			poslinha = 9;
+		}
+		if (poscoluna > 9)
+		{
+			poscoluna = 9;
+		}
 
-	//Validações pro personagem não sair do mapa
-	if (poslinha < 0)
-	{
-		poslinha = 0;
-	}
-	if (poscoluna < 0)
-	{
-		poscoluna = 0;
-	}
-	if (poslinha > 9)
-	{
-		poslinha = 9;
-	}
-	if (poscoluna > 9)
-	{
-		poscoluna = 9;
-	}
+		if (mapwalk[poslinha][poscoluna] == 0)
+		{
+			poslinha = px;
+			poscoluna = py;
+		}
+		else if (mapwalk[poslinha][poscoluna] == 2)
+		{
+			for (int i = 0; i < LINS; i++)
+			{
+				for (int j = 0; j < COLS; j++)
+				{
+					if (map[i][j] == 1)
+					{
+						map[i][j]++;
+						mapwalk[i][j]++;
+					}
+				}
+			}
+		}
 
-	if (mapwalk[poslinha][poscoluna] == 0)
-	{
-		poslinha = px;
-		poscoluna = py;
+		if (map[px][py] >= 3 && map[px][py] < 5)
+		{
+			map[px][py]++;
+			if (map[px][py] > 4)
+			{
+				mapwalk[px][py]--;
+			}
+		}
 	}
-	
-	//fazer aqui a troca de status do mapa
-
 }
 
 void SceneManager::render()
@@ -375,7 +397,7 @@ void SceneManager::setupScene()
 		4,	6,	4,	4,	4,	6,	4,	4,	4,	6,
 		4,	6,	4,	4,	4,	1,	4,	4,	4,	0,
 		3,	4,	4,	4,	4,	6,	6,	6,	6,	6,
-		3,	6,	4,	4,	4,	6,	5,	5,	5,	5,
+		4,	6,	4,	4,	4,	6,	5,	5,	5,	5,
 		6,	6,	6,	6,	6,	6,	5,	5,	5,	5
 		
 	};
@@ -384,12 +406,12 @@ void SceneManager::setupScene()
 	int mapcaminhavel[10][10] =
 	{
 		1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		1, 0, 1, 1, 1, 0, 0, 1, 0, 0,
+		1, 0, 1, 2, 1, 0, 0, 1, 0, 0,
 		1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
 		1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
 		1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
 		1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
-		1, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+		1, 0, 1, 1, 1, 0, 1, 1, 1, 1,
 		1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
 		1, 0, 1, 1, 1, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
